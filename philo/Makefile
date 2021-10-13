@@ -7,6 +7,7 @@ LIST	=	routine \
 			mutex \
 			philosophers \
 			print \
+			start \
 			time \
 			utils \
 
@@ -57,4 +58,3 @@ re	:			fclean all
 .PHONY	:		all clean fclean re
 
 -include	$(DEPS)
-

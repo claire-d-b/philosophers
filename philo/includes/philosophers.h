@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/07 18:05:32 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:23:35 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void			release_different_forks(t_philo *philo);
 
 void			free_structs_error(t_philo *philo, t_data *infos);
 void			free_structs(t_philo *philo);
-void			*start_routine(void *philo);
-int				start_threads(t_philo *philo, int philo_number);
 
 /*
 **  print
@@ -117,6 +115,14 @@ int				quit_routine(t_philo *philo);
 
 int				is_it_dead(t_philo *philo);
 void			record_last_meal(t_philo *philo);
+
+/*
+**  start
+*/
+
+void			*start_routine(void *philo);
+int				start_threads(t_philo *philo, int philo_number);
+int				join_threads(t_philo *philo, int philo_number);
 
 /*
 **  time

@@ -6,7 +6,7 @@
 /*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/08 15:58:08 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:11:52 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,24 @@
 int	init_structs(t_data **infos, t_philo **philo, char **args)
 {
 	*infos = malloc(sizeof(t_data));
+	if (!*infos)
+		return (ERROR);
 	memset(*infos, 0, sizeof(t_data));
 	(*infos)->forks_mutex = malloc(sizeof(pthread_mutex_t) * ft_atoi(args[1]));
 	if (!((*infos)->forks_mutex))
+	{
+		free(*infos);
 		return (ERROR);
+	}
 	memset((*infos)->forks_mutex, 0, sizeof(pthread_mutex_t) * \
 	ft_atoi(args[1]));
 	*philo = malloc(sizeof(t_philo) * ft_atoi(args[1]));
 	if (!*philo)
+	{
+		free((*infos)->forks_mutex);
+		free(*infos);
 		return (ERROR);
+	}
 	memset(*philo, 0, sizeof(t_philo) * ft_atoi(args[1]));
 	return (TRUE);
 }
@@ -85,5 +94,7 @@ char **av)
 	}
 	init_mutexes(philo);
 	start_threads(philo, philo->philo_number);
+	is_it_dead(philo);
+	join_threads(philo, philo->philo_number);
 	return (TRUE);
 }

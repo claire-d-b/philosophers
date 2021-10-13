@@ -6,7 +6,7 @@
 /*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:41 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/07 18:32:56 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:22:10 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,6 @@ void	free_structs(t_philo *philo)
 	free(philo->data->threads);
 	free(philo->data);
 	free(philo);
-}
-
-void	*start_routine(void *philo)
-{
-	t_philo	*phil;
-
-	phil = (t_philo *)philo;
-	philo_routine(philo);
-	return (TRUE);
-}
-
-int	start_threads(t_philo *philo, int philo_number)
-{
-	int	ret;
-	int	i;
-
-	i = 0;
-	ret = 0;
-	while (i < philo_number)
-	{
-		ret = pthread_create(&philo->data->threads[i], NULL, &start_routine, \
-		(void *)&philo[i]);
-		if (ret)
-			return (print_error("Error in attempt to create thread\n", philo));
-		i++;
-	}
-	i = 0;
-	while (i < philo_number)
-	{
-		ret = pthread_join(philo->data->threads[i], NULL);
-		if (ret)
-			return (print_error("Error in attempt to join thread\n", philo));
-		i++;
-	}
-	return (TRUE);
 }
 
 int	main(int ac, char **av)

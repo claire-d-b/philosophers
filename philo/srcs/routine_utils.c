@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:23 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/07 17:54:09 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:09:20 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,24 @@
 
 int	is_it_dead(t_philo *philo)
 {
-	if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
-	(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat))
-		return (FALSE);
+	int	nb;
+
+	nb = 0;
+	while (nb < philo->philo_number)
+	{
+		pthread_mutex_lock(&philo->data->lm_mutex);
+		if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
+		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat))
+		{
+			pthread_mutex_unlock(&philo->data->lm_mutex);
+			return (quit_routine(philo));
+		}
+		pthread_mutex_unlock(&philo->data->lm_mutex);
+		if (nb == philo->philo_number - 1)
+			nb = 0;
+		nb++;
+		usleep(100);
+	}
 	return (TRUE);
 }
 

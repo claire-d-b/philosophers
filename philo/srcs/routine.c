@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/08 14:29:49 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:24:56 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	philo_eat(t_philo *philo)
 {
 	if (take_different_forks(philo))
 		return (quit_routine(philo));
-	if (philo->philo_number > 1)
+	if ((philo->philo_number > 1 && philo->eat_count > 0) || \
+	(philo->philo_number > 1 && philo->eat_count == 0 && philo->id % 2))
 	{
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is eating\n");
@@ -46,7 +47,13 @@ int	philo_eat(t_philo *philo)
 		philo->eat_count++;
 		pthread_mutex_unlock(&philo->data->count_mutex);
 	}
-	if (philo->philo_number == 1 || philo->time_to_die < philo->time_to_eat)
+	else if (philo->philo_number > 1)
+	{
+		pthread_mutex_lock(&philo->data->mutex);
+		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
+		pthread_mutex_unlock(&philo->data->mutex);
+	}
+	else
 	{
 		release_different_forks(philo);
 		wait_action(philo, philo->time_to_die * 1000);
@@ -62,11 +69,6 @@ int	philo_sleep(t_philo *philo)
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is sleeping\n");
 		pthread_mutex_unlock(&philo->data->mutex);
-	}
-	if (philo->time_to_die - philo->time_to_eat < philo->time_to_sleep)
-	{
-		wait_action(philo, (philo->time_to_die - philo->time_to_eat) * 1000);
-		return (quit_routine(philo));
 	}
 	return (TRUE);
 }
@@ -93,15 +95,12 @@ void	*philo_routine(t_philo *philo)
 		}
 		pthread_mutex_unlock(&philo->data->die_mutex);
 		pthread_mutex_unlock(&philo->data->end_mutex);
-		if (philo_eat(philo) == FALSE)
-			return (NULL);
+		philo_eat(philo);
 		wait_action(philo, philo->time_to_eat * 1000);
 		release_different_forks(philo);
-		if (philo_sleep(philo) == FALSE)
-			return (NULL);
+		philo_sleep(philo);
 		wait_action(philo, philo->time_to_sleep * 1000);
-		if (philo_think(philo) == FALSE)
-			return (NULL);
+		philo_think(philo);
 	}
 	return (NULL);
 }
