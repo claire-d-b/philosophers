@@ -33,6 +33,7 @@ typedef struct s_data
 	unsigned long	adjust;
 	int				minus;
 	unsigned long	start_time;
+	int				alone;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	die_mutex;
 	pthread_mutex_t	end_mutex;
@@ -41,6 +42,7 @@ typedef struct s_data
 	pthread_mutex_t	time_cmp_mutex;
 	pthread_mutex_t	time_mutex;
 	pthread_mutex_t	*forks_mutex;
+	pthread_mutex_t	alone_mutex;
 	pthread_t		*threads;
 }			t_data;
 
@@ -80,7 +82,7 @@ int				create_forks_a_philo(int i, t_data *infos, \
 
 int				init_mutexes(t_philo *philo);
 int				destroy_mutexes(int i, t_philo *philo);
-int				take_different_forks(t_philo *philo);
+void				take_different_forks(t_philo *philo);
 void			release_different_forks(t_philo *philo);
 
 /*
@@ -95,7 +97,7 @@ void			free_structs(t_philo *philo);
 */
 
 void			ft_putstr_fd(char *s, int fd);
-void			take_forks(t_philo *philo, int is_alone);
+void			take_forks(t_philo *philo);
 void			print_msg(t_philo *philo, char *msg);
 int				print_error(char *msg, t_philo *philo);
 
@@ -103,9 +105,9 @@ int				print_error(char *msg, t_philo *philo);
 **  routine
 */
 
-int				philo_eat(t_philo *philo);
-int				philo_sleep(t_philo *philo);
-int				philo_think(t_philo *philo);
+void				philo_eat(t_philo *philo);
+void				philo_sleep(t_philo *philo);
+void				philo_think(t_philo *philo);
 void			*philo_routine(t_philo *philo);
 int				quit_routine(t_philo *philo);
 

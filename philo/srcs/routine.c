@@ -33,10 +33,9 @@ int	quit_routine(t_philo *philo)
 	return (FALSE);
 }
 
-int	philo_eat(t_philo *philo)
+void	philo_eat(t_philo *philo)
 {
-	if (take_different_forks(philo))
-		return (quit_routine(philo));
+	take_different_forks(philo);
 	if ((philo->philo_number > 1 && philo->eat_count > 0) || \
 	(philo->philo_number > 1 && philo->eat_count == 0 && philo->id % 2))
 	{
@@ -53,16 +52,9 @@ int	philo_eat(t_philo *philo)
 		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
-	else
-	{
-		release_different_forks(philo);
-		wait_action(philo, philo->time_to_die * 1000);
-		return (quit_routine(philo));
-	}
-	return (TRUE);
 }
 
-int	philo_sleep(t_philo *philo)
+void	philo_sleep(t_philo *philo)
 {
 	if (philo->philo_number > 1)
 	{
@@ -70,15 +62,16 @@ int	philo_sleep(t_philo *philo)
 		print_msg(philo, "%lu milliseconds : philosopher %d is sleeping\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
-	return (TRUE);
 }
 
-int	philo_think(t_philo *philo)
+void	philo_think(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->mutex);
-	print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
-	pthread_mutex_unlock(&philo->data->mutex);
-	return (TRUE);
+	if (philo->philo_number > 1)
+	{
+		pthread_mutex_lock(&philo->data->mutex);
+		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
+		pthread_mutex_unlock(&philo->data->mutex);
+	}
 }
 
 void	*philo_routine(t_philo *philo)

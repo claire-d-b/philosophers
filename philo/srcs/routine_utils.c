@@ -14,23 +14,24 @@
 
 int	is_it_dead(t_philo *philo)
 {
-	int	nb;
-
-	nb = 0;
-	while (nb < philo->philo_number)
+	while (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->lm_mutex);
 		if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
-		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat))
+		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat) \
+		|| philo->philo_number == 1)
 		{
 			pthread_mutex_unlock(&philo->data->lm_mutex);
 			return (quit_routine(philo));
 		}
 		pthread_mutex_unlock(&philo->data->lm_mutex);
-		if (nb == philo->philo_number - 1)
-			nb = 0;
-		nb++;
 		usleep(100);
+	}
+	if (philo->philo_number == 1)
+	{
+		while (get_time(philo) < philo->time_to_die * 1000 && philo->philo_number == 1)
+			usleep(100);
+		return (quit_routine(philo));
 	}
 	return (TRUE);
 }
