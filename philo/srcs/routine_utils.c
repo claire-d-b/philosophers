@@ -17,13 +17,16 @@ int	is_it_dead(t_philo *philo)
 	while (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->lm_mutex);
+		pthread_mutex_lock(&philo->data->count_mutex);
 		if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
 		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat) \
 		|| philo->philo_number == 1)
 		{
+			pthread_mutex_unlock(&philo->data->count_mutex);
 			pthread_mutex_unlock(&philo->data->lm_mutex);
 			return (quit_routine(philo));
 		}
+		pthread_mutex_unlock(&philo->data->count_mutex);
 		pthread_mutex_unlock(&philo->data->lm_mutex);
 		usleep(100);
 	}
