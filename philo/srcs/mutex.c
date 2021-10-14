@@ -68,12 +68,12 @@ void	take_different_forks(t_philo *philo)
 {
 	if (philo->philo_number > 1)
 		is_thinking(philo);
-	else
+	else if (philo->philo_number == 1)
 	{
-		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
+		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		take_forks(philo);
 	}
-	if (philo->id % 2)
+	else if (philo->id % 2)
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
@@ -92,7 +92,7 @@ void	take_different_forks(t_philo *philo)
 void	release_different_forks(t_philo *philo)
 {
 	if (philo->philo_number == 1)
-		pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
+		pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
 	else if (philo->id % 2)
 	{
 		pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);

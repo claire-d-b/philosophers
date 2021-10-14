@@ -32,7 +32,7 @@ int	is_it_dead(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->data->lm_mutex);
 		pthread_mutex_lock(&philo->data->count_mutex);
-		if (get_time(philo)> philo->last_meal + philo->time_to_die * 1000 || \
+		if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
 		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat) \
 		|| philo->philo_number == 1)
 		{
@@ -46,7 +46,7 @@ int	is_it_dead(t_philo *philo)
 	}
 	if (philo->philo_number == 1)
 	{
-		while (get_time(philo) < philo->time_to_die * 1000 && philo->philo_number == 1)
+		while (get_time(philo) < philo->time_to_die * 1000)
 			usleep(100);
 		return (quit_routine(philo));
 	}
