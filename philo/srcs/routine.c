@@ -36,27 +36,12 @@ int	quit_routine(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	take_different_forks(philo);
+	pthread_mutex_lock(&philo->data->mutex);
+	print_msg(philo, "%lu milliseconds : philosopher %d is eating\n");
+	pthread_mutex_unlock(&philo->data->mutex);
 	pthread_mutex_lock(&philo->data->count_mutex);
-	if ((philo->philo_number > 1 && philo->eat_count > 0) || \
-	(philo->philo_number > 1 && philo->eat_count == 0 && philo->id % 2))
-	{
-		pthread_mutex_unlock(&philo->data->count_mutex);
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d is eating\n");
-		pthread_mutex_unlock(&philo->data->mutex);
-		pthread_mutex_lock(&philo->data->count_mutex);
-		philo->eat_count++;
-		pthread_mutex_unlock(&philo->data->count_mutex);
-	}
-	else if (philo->philo_number > 1)
-	{
-		pthread_mutex_unlock(&philo->data->count_mutex);
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
-		pthread_mutex_unlock(&philo->data->mutex);
-	}
-	else
-		pthread_mutex_unlock(&philo->data->count_mutex);
+	philo->eat_count++;
+	pthread_mutex_unlock(&philo->data->count_mutex);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -95,6 +80,9 @@ void	*philo_routine(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		philo_eat(philo);
 		wait_action(philo, philo->time_to_eat * 1000);
+		pthread_mutex_lock(&philo->data->start_mutex);
+		philo->data->start = 1;
+		pthread_mutex_unlock(&philo->data->start_mutex);
 		release_different_forks(philo);
 		philo_sleep(philo);
 		wait_action(philo, philo->time_to_sleep * 1000);

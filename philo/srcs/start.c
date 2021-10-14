@@ -51,7 +51,6 @@ int	start_threads(t_philo *philo, int philo_number)
 		(void *)&philo[i]);
 		if (ret)
 			return (print_error("Error in attempt to create thread\n", philo));
-		usleep(100);
 		i++;
 	}
 	return (TRUE);

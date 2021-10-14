@@ -57,6 +57,6 @@ void	wait_action(t_philo *philo, unsigned long time)
 		time2 = get_timestamp(philo);
 		pthread_mutex_unlock(&philo->data->time_mutex);
 		philo->diff = time2 - time1;
-		usleep(1000);
+		usleep(100);
 	}
 }

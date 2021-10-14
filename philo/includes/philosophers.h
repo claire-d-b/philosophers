@@ -34,6 +34,7 @@ typedef struct s_data
 	int				minus;
 	unsigned long	start_time;
 	int				alone;
+	int				start;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	die_mutex;
 	pthread_mutex_t	end_mutex;
@@ -43,6 +44,7 @@ typedef struct s_data
 	pthread_mutex_t	time_mutex;
 	pthread_mutex_t	*forks_mutex;
 	pthread_mutex_t	alone_mutex;
+	pthread_mutex_t	start_mutex;
 	pthread_t		*threads;
 }			t_data;
 
@@ -115,6 +117,7 @@ int				quit_routine(t_philo *philo);
 **  routine_utils
 */
 
+void			is_thinking(t_philo *philo);
 int				is_it_dead(t_philo *philo);
 void			record_last_meal(t_philo *philo);
 

@@ -28,7 +28,9 @@ int	init_mutexes(t_philo *philo)
 		return (print_error("Error in attempt to init mutex\n", philo));
 	if (pthread_mutex_init(&philo->data->time_mutex, NULL))
 		return (print_error("Error in attempt to init mutex\n", philo));
-		if (pthread_mutex_init(&philo->data->alone_mutex, NULL))
+	if (pthread_mutex_init(&philo->data->alone_mutex, NULL))
+		return (print_error("Error in attempt to init mutex\n", philo));
+	if (pthread_mutex_init(&philo->data->start_mutex, NULL))
 		return (print_error("Error in attempt to init mutex\n", philo));
 	return (TRUE);
 }
@@ -51,6 +53,8 @@ int	destroy_mutexes(int i, t_philo *philo)
 		return (print_error("Error in attempt to destroy mutex\n", philo));
 	if (pthread_mutex_destroy(&philo->data->alone_mutex))
 		return (print_error("Error in attempt to destroy mutex\n", philo));
+	if (pthread_mutex_destroy(&philo->data->start_mutex))
+		return (print_error("Error in attempt to destroy mutex\n", philo));
 	while (i < philo->philo_number)
 	{
 		if (pthread_mutex_destroy(&philo->data->forks_mutex[i]))
@@ -62,12 +66,14 @@ int	destroy_mutexes(int i, t_philo *philo)
 
 void	take_different_forks(t_philo *philo)
 {
-	if (philo->philo_number == 1)
+	if (philo->philo_number > 1)
+		is_thinking(philo);
+	else
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 		take_forks(philo);
 	}
-	else if (philo->id % 2)
+	if (philo->id % 2)
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);

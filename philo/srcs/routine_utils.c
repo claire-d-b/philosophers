@@ -12,13 +12,27 @@
 
 #include "philosophers.h"
 
+void	is_thinking(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->start_mutex);
+	if (!philo->data->start)
+	{
+		pthread_mutex_unlock(&philo->data->start_mutex);
+		pthread_mutex_lock(&philo->data->mutex);
+		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
+		pthread_mutex_unlock(&philo->data->mutex);
+	}
+	else
+		pthread_mutex_unlock(&philo->data->start_mutex);
+}
+
 int	is_it_dead(t_philo *philo)
 {
 	while (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->lm_mutex);
 		pthread_mutex_lock(&philo->data->count_mutex);
-		if (get_time(philo) > philo->last_meal + philo->time_to_die * 1000 || \
+		if (get_time(philo)> philo->last_meal + philo->time_to_die * 1000 || \
 		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat) \
 		|| philo->philo_number == 1)
 		{
