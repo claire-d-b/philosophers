@@ -68,19 +68,19 @@ void	take_different_forks(t_philo *philo)
 {
 	if (philo->philo_number > 1)
 		is_thinking(philo);
-	else if (philo->philo_number == 1)
+	else
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		take_forks(philo);
 	}
-	else if (philo->id % 2)
+	if (philo->id % 2 && philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		take_forks(philo);
 		record_last_meal(philo);
 	}
-	else
+	else if (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);

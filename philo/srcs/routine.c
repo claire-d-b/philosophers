@@ -27,12 +27,7 @@ int	quit_routine(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->die_mutex);
 	}
 	else
-	{
 		pthread_mutex_unlock(&philo->data->count_mutex);
-		pthread_mutex_lock(&philo->data->end_mutex);
-		philo->data->end = 1;
-		pthread_mutex_unlock(&philo->data->end_mutex);
-	}
 	return (FALSE);
 }
 
@@ -46,6 +41,7 @@ void	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
 	pthread_mutex_lock(&philo->data->count_mutex);
+	printf("eatcount %lu\n", philo->eat_count);
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->data->count_mutex);
 }

@@ -28,8 +28,8 @@
 
 typedef struct s_data
 {
-	int				died;
 	int				end;
+	int				died;
 	unsigned long	adjust;
 	int				minus;
 	unsigned long	start_time;
