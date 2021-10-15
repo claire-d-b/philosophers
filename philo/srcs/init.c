@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 09:42:17 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:13:24 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	init_structs(t_data **infos, t_philo **philo, char **args)
 {
+	if (ft_atoi(args[1]) < 0)
+		return (ERROR);
 	*infos = malloc(sizeof(t_data));
 	if (!*infos)
 		return (ERROR);
@@ -39,6 +41,8 @@ int	init_structs(t_data **infos, t_philo **philo, char **args)
 
 int	shared_data(t_data *infos, char **av)
 {
+	if (ft_atoi(av[1]) < 0)
+		return (ERROR);
 	infos->start_time = get_start_time();
 	infos->threads = malloc(sizeof(pthread_t) * ft_atoi(av[1]));
 	if (!infos->threads)
@@ -92,7 +96,7 @@ char **av)
 		ret = init_philo(&philo[i], infos, i, av);
 		if (ret != TRUE)
 		{
-			while (--i)
+			while (--i > 0)
 			{
 				if (pthread_mutex_destroy(&philo->data->forks_mutex[i]))
 					return (print_error("Error in attempt to destroy mutex\n", \

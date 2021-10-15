@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 09:46:06 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:12:31 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	philo_think(t_philo *philo)
 void	*philo_routine(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
+	{
+		is_thinking(philo);
 		wait_action(philo, (philo->time_to_eat - 10) * 1000);
+	}
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->die_mutex);
@@ -93,9 +96,6 @@ void	*philo_routine(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		philo_eat(philo);
 		wait_action(philo, philo->time_to_eat * 1000);
-		pthread_mutex_lock(&philo->data->start_mutex);
-		philo->data->start = 1;
-		pthread_mutex_unlock(&philo->data->start_mutex);
 		release_different_forks(philo);
 		philo_sleep(philo);
 		wait_action(philo, philo->time_to_sleep * 1000);

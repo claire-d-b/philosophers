@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:20 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 09:44:30 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:47:05 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int	destroy_mutexes(int i, t_philo *philo)
 
 void	take_different_forks(t_philo *philo)
 {
-	if (philo->philo_number > 1)
-		is_thinking(philo);
-	else
+	if (philo->philo_number == 1)
 	{
 		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		take_forks(philo);
@@ -92,6 +90,10 @@ void	take_different_forks(t_philo *philo)
 
 void	release_different_forks(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data->start_mutex);
+	if (philo->data->start == 0)
+		philo->data->start = 1;
+	pthread_mutex_unlock(&philo->data->start_mutex);
 	if (philo->philo_number == 1)
 		pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
 	else if (philo->id % 2)

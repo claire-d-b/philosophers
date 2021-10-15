@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:41 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 09:43:53 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:18:31 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	main(int ac, char **av)
 		return (print_error("Error in arguments\n", NULL));
 	init_structs(&infos, &philo, av);
 	shared_data(infos, av);
-	ret = create_forks_a_philo(-1, infos, philo, av);
-	if (ft_atoi(av[1]) <= 0 || ret == ERROR)
-	{
-		free_structs_error(philo, infos);
+	if (ft_atoi(av[1]) <= 0)
 		return (print_error("Error in arguments\n", NULL));
-	}
+	else
+		ret = create_forks_a_philo(-1, infos, philo, av);
+	if (ret == ERROR)
+		return (print_error("Error in arguments\n", NULL));
 	else if (ret == FALSE)
 	{
 		free_structs_error(philo, infos);
