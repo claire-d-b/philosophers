@@ -106,7 +106,7 @@ char **av)
 	}
 	init_mutexes(philo);
 	start_threads(philo, philo->philo_number);
-	is_it_dead(philo);
+	ret = is_it_dead(philo);
 	join_threads(philo, philo->philo_number);
 	return (TRUE);
 }

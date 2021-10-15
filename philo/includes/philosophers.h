@@ -120,6 +120,8 @@ int				quit_routine(t_philo *philo);
 */
 
 void			is_thinking(t_philo *philo);
+int				stop_alone(t_philo *philo);
+int				stop_numerous(t_philo *philo);
 int				is_it_dead(t_philo *philo);
 void			record_last_meal(t_philo *philo);
 

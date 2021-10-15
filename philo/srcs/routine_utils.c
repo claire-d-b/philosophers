@@ -26,7 +26,7 @@ void	is_thinking(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->start_mutex);
 }
 
-int	is_it_dead(t_philo *philo)
+int	stop_numerous(t_philo *philo)
 {
 	while (philo->philo_number > 1)
 	{
@@ -47,26 +47,28 @@ int	is_it_dead(t_philo *philo)
 				return (quit_routine(philo));
 			}
 			else
-			{
-				pthread_mutex_unlock(&philo->data->lm_mutex);
-				pthread_mutex_unlock(&philo->data->count_mutex);
 				pthread_mutex_unlock(&philo->data->all_eat_mutex);
-			}
 		}
-		else
-		{
-			pthread_mutex_unlock(&philo->data->count_mutex);
-			pthread_mutex_unlock(&philo->data->lm_mutex);
-		}
+		pthread_mutex_unlock(&philo->data->count_mutex);
+		pthread_mutex_unlock(&philo->data->lm_mutex);
 		usleep(100);
 	}
-	if (philo->philo_number == 1)
-	{
-		while (get_time(philo) < philo->time_to_die * 1000)
-			usleep(100);
-		return (quit_routine(philo));
-	}
 	return (TRUE);
+}
+
+int	stop_alone(t_philo *philo)
+{
+	while (get_time(philo) < philo->time_to_die * 1000)
+		usleep(100);
+	return (quit_routine(philo));
+}
+
+int	is_it_dead(t_philo *philo)
+{
+	if (philo->philo_number > 1)
+		return (stop_numerous(philo));
+	else
+		return (stop_alone(philo));
 }
 
 void	record_last_meal(t_philo *philo)

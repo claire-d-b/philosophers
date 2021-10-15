@@ -53,7 +53,7 @@ int	main(int ac, char **av)
 			free_structs_error(philo, infos);
 			return (0);
 		}
-		destroy_mutexes(0, philo);
+		destroy_mutexes(-1, philo);
 	}
 	free_structs(philo);
 	return (0);
