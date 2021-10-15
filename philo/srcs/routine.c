@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:24:56 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:46:06 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ int	quit_routine(t_philo *philo)
 		pthread_mutex_lock(&philo->data->die_mutex);
 		philo->data->died = 1;
 		pthread_mutex_unlock(&philo->data->die_mutex);
-		pthread_mutex_unlock(&philo->data->count_mutex);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->data->end_mutex);
 		philo->data->end = 1;
 		pthread_mutex_unlock(&philo->data->end_mutex);
-		printf("%lu\n", philo->eat_count);
-		pthread_mutex_unlock(&philo->data->count_mutex);
 	}
+	pthread_mutex_unlock(&philo->data->count_mutex);
 	return (FALSE);
 }
 

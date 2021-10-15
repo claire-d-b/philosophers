@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:41 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:22:10 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:43:53 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,20 @@ int	main(int ac, char **av)
 	infos = NULL;
 	if (ac < 5 || ac > 6)
 		return (print_error("Error in arguments\n", NULL));
-	else
+	init_structs(&infos, &philo, av);
+	shared_data(infos, av);
+	ret = create_forks_a_philo(-1, infos, philo, av);
+	if (ft_atoi(av[1]) <= 0 || ret == ERROR)
 	{
-		init_structs(&infos, &philo, av);
-		shared_data(infos, av);
-		ret = create_forks_a_philo(0, infos, philo, av);
-		if (ft_atoi(av[1]) <= 0 || ret == ERROR)
-		{
-			free_structs_error(philo, infos);
-			return (print_error("Error in arguments\n", NULL));
-		}
-		else if (ret == FALSE)
-		{
-			free_structs_error(philo, infos);
-			return (0);
-		}
-		destroy_mutexes(-1, philo);
+		free_structs_error(philo, infos);
+		return (print_error("Error in arguments\n", NULL));
 	}
+	else if (ret == FALSE)
+	{
+		free_structs_error(philo, infos);
+		return (0);
+	}
+	destroy_mutexes(-1, philo);
 	free_structs(philo);
 	return (0);
 }

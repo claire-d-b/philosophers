@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:20 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:21:30 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:44:30 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,8 @@ int	destroy_mutexes(int i, t_philo *philo)
 	if (pthread_mutex_destroy(&philo->data->all_eat_mutex))
 		return (print_error("Error in attempt to destroy mutex\n", philo));
 	while (++i < philo->philo_number)
-	{
 		if (pthread_mutex_destroy(&philo->data->forks_mutex[i]))
 			return (print_error("Error in attempt to destroy mutex\n", philo));
-	}
 	return (TRUE);
 }
 

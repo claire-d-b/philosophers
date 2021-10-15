@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:23:35 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:40:34 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int				create_forks_a_philo(int i, t_data *infos, \
 
 int				init_mutexes(t_philo *philo);
 int				destroy_mutexes(int i, t_philo *philo);
-void				take_different_forks(t_philo *philo);
+void			take_different_forks(t_philo *philo);
 void			release_different_forks(t_philo *philo);
 
 /*
@@ -109,9 +109,9 @@ int				print_error(char *msg, t_philo *philo);
 **  routine
 */
 
-void				philo_eat(t_philo *philo);
-void				philo_sleep(t_philo *philo);
-void				philo_think(t_philo *philo);
+void			philo_eat(t_philo *philo);
+void			philo_sleep(t_philo *philo);
+void			philo_think(t_philo *philo);
 void			*philo_routine(t_philo *philo);
 int				quit_routine(t_philo *philo);
 

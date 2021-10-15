@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:11:52 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:42:17 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,22 @@ char **av)
 	int	ret;
 
 	ret = 0;
-	while (i < ft_atoi(av[1]))
+	while (++i < ft_atoi(av[1]))
 	{
 		memset(&philo[i], 0, sizeof(t_philo));
 		ret = init_philo(&philo[i], infos, i, av);
 		if (ret != TRUE)
 		{
-			while (i)
+			while (--i)
 			{
 				if (pthread_mutex_destroy(&philo->data->forks_mutex[i]))
-					return (print_error("Error in attempt to destroy mutex\n", philo));
-				i--;
+					return (print_error("Error in attempt to destroy mutex\n", \
+					philo));
 			}
 			return (ret);
 		}
 		if (pthread_mutex_init(&philo->data->forks_mutex[i], NULL))
 			return (print_error("Error in attempt to init mutex\n", philo));
-		i++;
 	}
 	init_mutexes(philo);
 	start_threads(philo, philo->philo_number);
