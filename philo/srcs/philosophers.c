@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:41 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 12:18:31 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/15 17:25:24 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int	main(int ac, char **av)
 
 	philo = NULL;
 	infos = NULL;
-	if (ac < 5 || ac > 6)
-		return (print_error("Error in arguments\n", NULL));
-	if (ft_atoi(av[1]) <= 0)
+	if (ac < 5 || ac > 6 || ft_atoi(av[1]) <= 0)
 		return (print_error("Error in arguments\n", NULL));
 	if (init_structs(&infos, &philo, av) || shared_data(infos, av) == ERROR)
 		return (print_error("Malloc error\n", NULL));
