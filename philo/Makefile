@@ -12,7 +12,7 @@ LIST	=	routine \
 			utils \
 
 HEADER	=	-I includes/
-CFLAGS	=	-Wall -Wextra -Werror -pthread -MMD -fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror -pthread -MMD
 CC		=	clang
 
 S_DIR	=	srcs/

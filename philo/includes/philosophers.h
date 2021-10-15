@@ -28,6 +28,7 @@
 
 typedef struct s_data
 {
+	int				all_eat;
 	int				end;
 	int				died;
 	unsigned long	adjust;
@@ -45,6 +46,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks_mutex;
 	pthread_mutex_t	alone_mutex;
 	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	all_eat_mutex;
 	pthread_t		*threads;
 }			t_data;
 

@@ -73,7 +73,7 @@ int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 		if (!is_number(av[5]) || (int)philo->nb_of_times_eat < 0)
 			return (ERROR);
 		if (philo->nb_of_times_eat == 0)
-			infos->end = 1;
+			return (FALSE);
 	}
 	philo->data = infos;
 	link_philos(philo, i);
@@ -83,11 +83,23 @@ int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 int	create_forks_a_philo(int i, t_data *infos, t_philo *philo, \
 char **av)
 {
+	int	ret;
+
+	ret = 0;
 	while (i < ft_atoi(av[1]))
 	{
 		memset(&philo[i], 0, sizeof(t_philo));
-		if (init_philo(&philo[i], infos, i, av) == ERROR)
-			return (ERROR);
+		ret = init_philo(&philo[i], infos, i, av);
+		if (ret != TRUE)
+		{
+			while (i)
+			{
+				if (pthread_mutex_destroy(&philo->data->forks_mutex[i]))
+					return (print_error("Error in attempt to destroy mutex\n", philo));
+				i--;
+			}
+			return (ret);
+		}
 		if (pthread_mutex_init(&philo->data->forks_mutex[i], NULL))
 			return (print_error("Error in attempt to init mutex\n", philo));
 		i++;

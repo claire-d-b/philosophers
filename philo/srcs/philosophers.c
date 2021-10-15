@@ -32,6 +32,7 @@ int	main(int ac, char **av)
 {
 	t_philo			*philo;
 	t_data			*infos;
+	int				ret;
 
 	philo = NULL;
 	infos = NULL;
@@ -41,11 +42,16 @@ int	main(int ac, char **av)
 	{
 		init_structs(&infos, &philo, av);
 		shared_data(infos, av);
-		if (ft_atoi(av[1]) <= 0 || \
-		create_forks_a_philo(0, infos, philo, av) == ERROR)
+		ret = create_forks_a_philo(0, infos, philo, av);
+		if (ft_atoi(av[1]) <= 0 || ret == ERROR)
 		{
 			free_structs_error(philo, infos);
 			return (print_error("Error in arguments\n", NULL));
+		}
+		else if (ret == FALSE)
+		{
+			free_structs_error(philo, infos);
+			return (0);
 		}
 		destroy_mutexes(0, philo);
 	}

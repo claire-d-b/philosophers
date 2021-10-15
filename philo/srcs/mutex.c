@@ -32,6 +32,8 @@ int	init_mutexes(t_philo *philo)
 		return (print_error("Error in attempt to init mutex\n", philo));
 	if (pthread_mutex_init(&philo->data->start_mutex, NULL))
 		return (print_error("Error in attempt to init mutex\n", philo));
+	if (pthread_mutex_init(&philo->data->all_eat_mutex, NULL))
+		return (print_error("Error in attempt to init mutex\n", philo));
 	return (TRUE);
 }
 
@@ -54,6 +56,8 @@ int	destroy_mutexes(int i, t_philo *philo)
 	if (pthread_mutex_destroy(&philo->data->alone_mutex))
 		return (print_error("Error in attempt to destroy mutex\n", philo));
 	if (pthread_mutex_destroy(&philo->data->start_mutex))
+		return (print_error("Error in attempt to destroy mutex\n", philo));
+	if (pthread_mutex_destroy(&philo->data->all_eat_mutex))
 		return (print_error("Error in attempt to destroy mutex\n", philo));
 	while (i < philo->philo_number)
 	{

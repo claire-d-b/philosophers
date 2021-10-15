@@ -18,16 +18,22 @@ int	quit_routine(t_philo *philo)
 	if ((philo->eat_count < philo->nb_of_times_eat && philo->nb_of_times_eat) \
 	|| !philo->nb_of_times_eat)
 	{
-		pthread_mutex_unlock(&philo->data->count_mutex);
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d died\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 		pthread_mutex_lock(&philo->data->die_mutex);
 		philo->data->died = 1;
 		pthread_mutex_unlock(&philo->data->die_mutex);
+		pthread_mutex_unlock(&philo->data->count_mutex);
 	}
 	else
+	{
+		pthread_mutex_lock(&philo->data->end_mutex);
+		philo->data->end = 1;
+		pthread_mutex_unlock(&philo->data->end_mutex);
+		printf("%lu\n", philo->eat_count);
 		pthread_mutex_unlock(&philo->data->count_mutex);
+	}
 	return (FALSE);
 }
 
@@ -39,11 +45,16 @@ void	philo_eat(t_philo *philo)
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is eating\n");
 		pthread_mutex_unlock(&philo->data->mutex);
+		pthread_mutex_lock(&philo->data->count_mutex);
+		philo->eat_count++;
+		if (philo->eat_count == philo->nb_of_times_eat)
+		{
+			pthread_mutex_lock(&philo->data->all_eat_mutex);
+			philo->data->all_eat++;
+			pthread_mutex_unlock(&philo->data->all_eat_mutex);
+		}
+		pthread_mutex_unlock(&philo->data->count_mutex);
 	}
-	pthread_mutex_lock(&philo->data->count_mutex);
-	printf("eatcount %lu\n", philo->eat_count);
-	philo->eat_count++;
-	pthread_mutex_unlock(&philo->data->count_mutex);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -68,6 +79,8 @@ void	philo_think(t_philo *philo)
 
 void	*philo_routine(t_philo *philo)
 {
+	if (philo->id % 2 == 0)
+		wait_action(philo, (philo->time_to_eat - 10) * 1000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->die_mutex);
