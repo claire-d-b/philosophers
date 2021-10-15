@@ -60,8 +60,10 @@ void	link_philos(t_philo *philo, int i)
 int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 {
 	philo->philo_number = ft_atoi(av[1]);
-	if (!is_number(av[1]) || (int)philo->philo_number <= 0)
+	if (!is_number(av[1]) || (int)philo->philo_number < 0)
 		return (ERROR);
+	if ((int)philo->philo_number == 0)
+		return (FALSE);
 	philo->time_to_die = ft_atoi(av[2]);
 	if (!is_number(av[2]) || (int)philo->time_to_die < 0)
 		return (ERROR);
@@ -107,9 +109,5 @@ char **av)
 		if (pthread_mutex_init(&philo->data->forks_mutex[i], NULL))
 			return (print_error("Error in attempt to init mutex\n", philo));
 	}
-	init_mutexes(philo);
-	start_threads(philo, philo->philo_number);
-	ret = is_it_dead(philo);
-	join_threads(philo, philo->philo_number);
 	return (TRUE);
 }
