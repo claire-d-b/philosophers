@@ -50,7 +50,7 @@ int	stop_numerous(t_philo *philo)
 		}
 		pthread_mutex_unlock(&philo->data->count_mutex);
 		pthread_mutex_unlock(&philo->data->lm_mutex);
-		usleep(100);
+		usleep(1000);
 	}
 	return (TRUE);
 }
@@ -58,7 +58,7 @@ int	stop_numerous(t_philo *philo)
 int	stop_alone(t_philo *philo)
 {
 	while (get_time(philo) < philo->time_to_die * 1000)
-		usleep(100);
+		usleep(1000);
 	return (quit_routine(philo));
 }
 
