@@ -47,11 +47,11 @@ int	start_threads(t_philo *philo, int philo_number)
 	ret = 0;
 	while (i < philo_number)
 	{
-		ret = pthread_create(&philo->data->threads[i], NULL, &start_routine, \
+		ret = pthread_create(&philo->data->threads[i], NULL, start_routine, \
 		(void *)&philo[i]);
 		if (ret)
 			return (print_error("Error in attempt to create thread\n", philo));
-		usleep(1000);
+		usleep(100);
 		i++;
 	}
 	return (TRUE);
