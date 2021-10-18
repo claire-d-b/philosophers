@@ -72,16 +72,15 @@ void	philo_think(t_philo *philo)
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
 		pthread_mutex_unlock(&philo->data->mutex);
+		if (philo->time_to_die - philo->time_to_eat - philo->time_to_sleep \
+		- 10 > 0)
+			wait_action(philo, (philo->time_to_die - philo->time_to_eat - \
+			philo->time_to_sleep - 10) * 1000);
 	}
 }
 
 void	*philo_routine(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		is_thinking(philo);
-		wait_action(philo, (philo->time_to_eat - 10) * 1000);
-	}
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->die_mutex);
