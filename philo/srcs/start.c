@@ -6,7 +6,7 @@
 /*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 16:22:18 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/13 16:24:20 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/20 17:45:44 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	start_threads(t_philo *philo, int philo_number)
 		(void *)&philo[i]);
 		if (ret)
 			return (print_error("Error in attempt to create thread\n", philo));
-		usleep(100);
 		i++;
 	}
 	return (TRUE);
