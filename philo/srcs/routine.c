@@ -72,11 +72,11 @@ void	philo_think(t_philo *philo)
 	adjust = 0;
 	pthread_mutex_lock(&philo->data->lm_mutex);
 	pthread_mutex_lock(&philo->data->count_mutex);
-	adjust = (philo->last_meal - ((philo->time_to_eat * 1000 + \
-	philo->time_to_sleep * 1000) * (philo->eat_count - 1)));
+	adjust = (philo->last_meal / 1000 - ((philo->time_to_eat + \
+	philo->time_to_sleep) * (philo->eat_count - 1)));
 	pthread_mutex_unlock(&philo->data->lm_mutex);
 	pthread_mutex_unlock(&philo->data->count_mutex);
-	if (philo->philo_number > 1 && philo->philo_number % 2)
+	if (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
