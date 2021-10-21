@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/21 15:11:06 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/21 15:15:54 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	philo_think(t_philo *philo)
 	philo->time_to_sleep * 1000) * (philo->eat_count - 1)));
 	pthread_mutex_unlock(&philo->data->lm_mutex);
 	pthread_mutex_unlock(&philo->data->count_mutex);
-	if (philo->philo_number > 1)
+	if (philo->philo_number > 1 && philo->philo_number % 2)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
 		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
