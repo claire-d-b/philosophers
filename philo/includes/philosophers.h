@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/20 17:58:02 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/21 12:13:08 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int				quit_routine(t_philo *philo);
 **  routine_utils
 */
 
+int				reasons_for_death(t_philo *philo);
 int				stop_alone(t_philo *philo);
 int				stop_numerous(t_philo *philo);
 int				is_it_dead(t_philo *philo);

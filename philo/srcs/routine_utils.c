@@ -6,11 +6,22 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:23 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/20 18:25:24 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/21 12:15:31 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	reasons_for_death(t_philo *philo)
+{
+	if ((philo->data->all_eat >= philo->philo_number && \
+	philo->nb_of_times_eat) || philo->philo_number == 1 \
+	|| get_time(philo) >= philo->last_meal + philo->time_to_die * 1000 \
+	|| (get_time(philo) > philo->time_to_die * 1000 && \
+	philo->time_to_die * 1000 < philo->time_to_eat * 2000))
+		return (FALSE);
+	return (TRUE);
+}
 
 int	stop_numerous(t_philo *philo)
 {
@@ -18,14 +29,13 @@ int	stop_numerous(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->data->lm_mutex);
 		pthread_mutex_lock(&philo->data->count_mutex);
-		if (get_time(philo) / 1000 > philo->last_meal / 1000 + philo->time_to_die || \
+		if (get_time(philo) >= philo->last_meal + philo->time_to_die * 1000 || \
 		(philo->eat_count >= philo->nb_of_times_eat && philo->nb_of_times_eat) \
-		|| philo->philo_number == 1)
+		|| philo->philo_number == 1 || (get_time(philo) > philo->time_to_die * \
+		1000 && philo->time_to_die * 1000 < philo->time_to_eat * 2000))
 		{
 			pthread_mutex_lock(&philo->data->all_eat_mutex);
-			if ((philo->data->all_eat >= philo->philo_number && \
-			philo->nb_of_times_eat) || philo->philo_number == 1 \
-			|| get_time(philo) / 1000 > philo->last_meal / 1000 + philo->time_to_die)
+			if (reasons_for_death(philo))
 			{
 				pthread_mutex_unlock(&philo->data->lm_mutex);
 				pthread_mutex_unlock(&philo->data->count_mutex);
@@ -36,7 +46,7 @@ int	stop_numerous(t_philo *philo)
 		}
 		pthread_mutex_unlock(&philo->data->count_mutex);
 		pthread_mutex_unlock(&philo->data->lm_mutex);
-		usleep(1000);
+		usleep(100);
 	}
 	return (TRUE);
 }
@@ -44,7 +54,7 @@ int	stop_numerous(t_philo *philo)
 int	stop_alone(t_philo *philo)
 {
 	while (get_time(philo) < philo->time_to_die * 1000)
-		usleep(1000);
+		usleep(100);
 	return (quit_routine(philo));
 }
 
