@@ -82,7 +82,10 @@ void	philo_think(t_philo *philo)
 		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 		if (philo->id % 2 && philo->philo_number % 2 && adjust > 0)
+		{
+			philo->diff = 0;
 			wait_action(philo, adjust);
+		}
 	}
 }
 
@@ -103,9 +106,11 @@ void	*philo_routine(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->die_mutex);
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		philo_eat(philo);
+		philo->diff = 0;
 		wait_action(philo, philo->time_to_eat * 1000);
 		release_different_forks(philo);
 		philo_sleep(philo);
+		philo->diff = 0;
 		wait_action(philo, philo->time_to_sleep * 1000);
 		philo_think(philo);
 	}

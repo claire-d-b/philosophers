@@ -44,19 +44,26 @@ void	wait_action(t_philo *philo, unsigned long time)
 	unsigned long	time1;
 	unsigned long	time2;	
 
-	philo->diff = 0;
 	pthread_mutex_lock(&philo->data->time_cmp_mutex);
 	time1 = get_timestamp(philo);
 	pthread_mutex_unlock(&philo->data->time_cmp_mutex);
 	pthread_mutex_lock(&philo->data->time_mutex);
 	time2 = get_timestamp(philo);
 	pthread_mutex_unlock(&philo->data->time_mutex);
-	while (philo->diff < time)
+	pthread_mutex_lock(&philo->data->die_mutex);
+	pthread_mutex_lock(&philo->data->end_mutex);
+	while (philo->diff < time && !philo->data->died && !philo->data->end)
 	{
+		pthread_mutex_unlock(&philo->data->die_mutex);
+		pthread_mutex_unlock(&philo->data->end_mutex);
 		pthread_mutex_lock(&philo->data->time_mutex);
 		time2 = get_timestamp(philo);
 		pthread_mutex_unlock(&philo->data->time_mutex);
 		philo->diff = time2 - time1;
 		usleep(100);
+		pthread_mutex_lock(&philo->data->die_mutex);
+		pthread_mutex_lock(&philo->data->end_mutex);
 	}
+	pthread_mutex_unlock(&philo->data->die_mutex);
+	pthread_mutex_unlock(&philo->data->end_mutex);
 }
