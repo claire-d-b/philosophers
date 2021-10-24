@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/24 18:40:02 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/24 18:41:43 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,6 @@ void	philo_think(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->mutex);
 		if (philo->id % 2 && philo->philo_number % 2 && adjust > 0)
 		{
-			pthread_mutex_lock(&philo->data->mutex);
-			printf("%d\n", adjust);
-			pthread_mutex_unlock(&philo->data->mutex);
 			philo->diff = 0;
 			wait_action(philo, adjust);
 		}
