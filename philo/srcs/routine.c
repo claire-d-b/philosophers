@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/24 18:41:43 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/24 18:44:05 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	quit_routine(t_philo *philo)
 	|| !philo->nb_of_times_eat)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d died\n");
+		print_msg(philo, "%lu %d died\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 		pthread_mutex_lock(&philo->data->die_mutex);
 		philo->data->died = 1;
@@ -41,7 +41,7 @@ void	philo_eat(t_philo *philo)
 	if (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d is eating\n");
+		print_msg(philo, "%lu %d is eating\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 		pthread_mutex_lock(&philo->data->count_mutex);
 		philo->eat_count++;
@@ -60,7 +60,7 @@ void	philo_sleep(t_philo *philo)
 	if (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d is sleeping\n");
+		print_msg(philo, "%lu %d is sleeping\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
 }
@@ -77,7 +77,7 @@ void	philo_think(t_philo *philo)
 	if (philo->philo_number > 1)
 	{
 		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d is thinking\n");
+		print_msg(philo, "%lu %d is thinking\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 		if (philo->id % 2 && philo->philo_number % 2 && adjust > 0)
 		{

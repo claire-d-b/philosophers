@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:58 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/20 18:22:12 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/24 18:43:35 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	take_forks(t_philo *philo)
 		{
 			pthread_mutex_lock(&philo->data->mutex);
 			print_msg(philo, \
-			"%lu milliseconds : philosopher %d has taken a fork\n");
+			"%lu %d has taken a fork\n");
 			pthread_mutex_unlock(&philo->data->mutex);
 		}
 		pthread_mutex_unlock(&philo->data->alone_mutex);
@@ -46,8 +46,8 @@ void	take_forks(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu milliseconds : philosopher %d has taken a fork\n");
-		print_msg(philo, "%lu milliseconds : philosopher %d has taken a fork\n");
+		print_msg(philo, "%lu %d has taken a fork\n");
+		print_msg(philo, "%lu %d has taken a fork\n");
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
 }
