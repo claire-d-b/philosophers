@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:13 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/25 13:59:43 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/26 18:15:38 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	quit_routine(t_philo *philo)
 	if ((philo->eat_count < philo->nb_of_times_eat && philo->nb_of_times_eat) \
 	|| !philo->nb_of_times_eat)
 	{
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu %d died\n");
-		pthread_mutex_unlock(&philo->data->mutex);
 		pthread_mutex_lock(&philo->data->die_mutex);
 		philo->data->died = 1;
 		pthread_mutex_unlock(&philo->data->die_mutex);
+		pthread_mutex_lock(&philo->data->mutex);
+		printf("%lu %d died\n", get_time(philo) / 1000, philo->id);
+		pthread_mutex_unlock(&philo->data->mutex);
 	}
 	else
 	{
@@ -91,16 +91,10 @@ void	*philo_routine(t_philo *philo)
 {	
 	if (philo->id % 2)
 		philo_think(philo);
-	while (1)
+	pthread_mutex_lock(&philo->data->die_mutex);
+	pthread_mutex_lock(&philo->data->end_mutex);
+	while (!philo->data->died & !philo->data->end)
 	{
-		pthread_mutex_lock(&philo->data->die_mutex);
-		pthread_mutex_lock(&philo->data->end_mutex);
-		if (philo->data->died || philo->data->end)
-		{
-			pthread_mutex_unlock(&philo->data->die_mutex);
-			pthread_mutex_unlock(&philo->data->end_mutex);
-			return (NULL);
-		}
 		pthread_mutex_unlock(&philo->data->die_mutex);
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		philo_eat(philo);
@@ -111,6 +105,10 @@ void	*philo_routine(t_philo *philo)
 		philo->diff = 0;
 		wait_action(philo, philo->time_to_sleep * 1000);
 		philo_think(philo);
+		pthread_mutex_lock(&philo->data->die_mutex);
+		pthread_mutex_lock(&philo->data->end_mutex);
 	}
+	pthread_mutex_unlock(&philo->data->die_mutex);
+	pthread_mutex_unlock(&philo->data->end_mutex);
 	return (NULL);
 }
