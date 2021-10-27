@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/21 12:13:08 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/27 14:13:41 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int				print_error(char *msg, t_philo *philo);
 
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
-void			philo_think(t_philo *philo);
+void			philo_think(t_philo *philo, int boolean);
 void			*philo_routine(t_philo *philo);
 int				quit_routine(t_philo *philo);
 
@@ -119,9 +119,10 @@ int				quit_routine(t_philo *philo);
 **  routine_utils
 */
 
-int				reasons_for_death(t_philo *philo);
-int				stop_alone(t_philo *philo);
-int				stop_numerous(t_philo *philo);
+int				reasons_for_death(t_philo *philo, unsigned long alt_eat);
+int				stop_alone(t_philo *philo, unsigned long die);
+int				stop_numerous(t_philo *philo, unsigned long die, unsigned long \
+alt_eat);
 int				is_it_dead(t_philo *philo);
 void			record_last_meal(t_philo *philo);
 

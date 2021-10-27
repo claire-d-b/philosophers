@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:09:39 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/07 18:05:43 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:00:22 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	wait_action(t_philo *philo, unsigned long time)
 		time2 = get_timestamp(philo);
 		pthread_mutex_unlock(&philo->data->time_mutex);
 		philo->diff = time2 - time1;
-		usleep(100);
+		usleep(1000);
 		pthread_mutex_lock(&philo->data->die_mutex);
 		pthread_mutex_lock(&philo->data->end_mutex);
 	}

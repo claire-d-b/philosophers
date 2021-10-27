@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/15 12:13:24 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/27 14:04:12 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 		return (ERROR);
 	if ((int)philo->philo_number == 0)
 		return (FALSE);
-	philo->time_to_die = ft_atoi(av[2]);
+	philo->time_to_die = ft_atoi(av[2]) * 1000;
 	if (!is_number(av[2]) || (int)philo->time_to_die < 0)
 		return (ERROR);
-	philo->time_to_eat = ft_atoi(av[3]);
+	philo->time_to_eat = ft_atoi(av[3]) * 1000;
 	if (!is_number(av[3]) || (int)philo->time_to_eat < 0)
 		return (ERROR);
-	philo->time_to_sleep = ft_atoi(av[4]);
+	philo->time_to_sleep = ft_atoi(av[4]) * 1000;
 	if (!is_number(av[4]) || (int)philo->time_to_sleep < 0)
 		return (ERROR);
 	if (av[5])
