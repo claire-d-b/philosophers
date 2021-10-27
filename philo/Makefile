@@ -10,6 +10,7 @@ LIST	=	routine \
 			start \
 			time \
 			utils \
+			string_utils \
 
 HEADER	=	-I includes/
 CFLAGS	=	-Wall -Wextra -Werror -pthread -MMD

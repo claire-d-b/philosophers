@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/27 14:13:41 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:54:02 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_philo
 
 int				init_structs(t_data **infos, t_philo **philo, char **args);
 int				shared_data(t_data *infos, char **av);
-void			link_philos(t_philo *philo, int i);
+void			link_philos(t_philo *philo, int i, char **av);
 int				init_philo(t_philo *philo, t_data *infos, int i, \
 				char **av);
 int				create_forks_a_philo(int i, t_data *infos, \
@@ -135,6 +135,14 @@ int				start_threads(t_philo *philo, int philo_number);
 int				join_threads(t_philo *philo, int philo_number);
 
 /*
+**  string_utils
+*/
+
+char			*ft_strdup(char *str);
+int				ft_strcmp(char *s1, char *s2);
+char			*ft_itoa(int n);
+
+/*
 **  time
 */
 
@@ -147,6 +155,7 @@ void			wait_action(t_philo *philo, unsigned long time);
 **  utils
 */
 
+size_t			ft_strlen(char *str);
 int				is_number(char *str);
 int				ft_isdigit(char c);
 int				ft_atoi(const char *str);

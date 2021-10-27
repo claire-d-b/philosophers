@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/27 14:04:12 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:53:49 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ int	shared_data(t_data *infos, char **av)
 	return (TRUE);
 }
 
-void	link_philos(t_philo *philo, int i)
+void	link_philos(t_philo *philo, int i, char **av)
 {
+	philo->philo_number = ft_atoi(av[1]);
+	philo->time_to_die = ft_atoi(av[2]) * 1000;
+	philo->time_to_eat = ft_atoi(av[3]) * 1000;
+	philo->time_to_sleep = ft_atoi(av[4]) * 1000;
 	philo->id = i + 1;
 	philo->right = (i + 1) % philo->philo_number;
 	philo->left = i;
@@ -59,30 +63,30 @@ void	link_philos(t_philo *philo, int i)
 
 int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 {
-	philo->philo_number = ft_atoi(av[1]);
-	if (!is_number(av[1]) || (int)philo->philo_number < 0)
+	if (!is_number(av[1]) || ft_atoi(av[1]) < 0)
 		return (ERROR);
-	if ((int)philo->philo_number == 0)
+	if (ft_atoi(av[1]) == 0)
 		return (FALSE);
-	philo->time_to_die = ft_atoi(av[2]) * 1000;
-	if (!is_number(av[2]) || (int)philo->time_to_die < 0)
+	if (!is_number(av[2]) || ft_atoi(av[2]) < 0 || \
+	ft_strcmp(ft_itoa(ft_atoi(av[2])), av[2]))
 		return (ERROR);
-	philo->time_to_eat = ft_atoi(av[3]) * 1000;
-	if (!is_number(av[3]) || (int)philo->time_to_eat < 0)
+	if (!is_number(av[3]) || ft_atoi(av[3]) < 0 || \
+	ft_strcmp(ft_itoa(ft_atoi(av[3])), av[3]))
 		return (ERROR);
-	philo->time_to_sleep = ft_atoi(av[4]) * 1000;
-	if (!is_number(av[4]) || (int)philo->time_to_sleep < 0)
+	if (!is_number(av[4]) || ft_atoi(av[4]) < 0 || \
+	ft_strcmp(ft_itoa(ft_atoi(av[4])), av[4]))
 		return (ERROR);
 	if (av[5])
 	{
 		philo->nb_of_times_eat = ft_atoi(av[5]);
-		if (!is_number(av[5]) || (int)philo->nb_of_times_eat < 0)
+		if (!is_number(av[5]) || ft_atoi(av[5]) < 0 || \
+		ft_strcmp(ft_itoa(ft_atoi(av[5])), av[5]))
 			return (ERROR);
-		if (philo->nb_of_times_eat == 0)
+		if (ft_atoi(av[5]) == 0)
 			return (FALSE);
 	}
 	philo->data = infos;
-	link_philos(philo, i);
+	link_philos(philo, i, av);
 	return (TRUE);
 }
 
