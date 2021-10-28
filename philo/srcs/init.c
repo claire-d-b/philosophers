@@ -63,28 +63,30 @@ void	link_philos(t_philo *philo, int i, char **av)
 
 int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 {
-	if (!is_number(av[1]) || ft_atoi(av[1]) < 0)
-		return (ERROR);
+	char	*str;
+	int		ret;
+
+	ret = 0;
+	str = ft_itoa(ft_atoi(av[1]));
+	if (!is_number(av[1]) || ft_atoi(av[1]) < 0 || ft_strcmp(str, av[1]))
+		ret = ERROR;
 	if (ft_atoi(av[1]) == 0)
-		return (FALSE);
-	if (!is_number(av[2]) || ft_atoi(av[2]) < 0 || \
-	ft_strcmp(ft_itoa(ft_atoi(av[2])), av[2]))
-		return (ERROR);
-	if (!is_number(av[3]) || ft_atoi(av[3]) < 0 || \
-	ft_strcmp(ft_itoa(ft_atoi(av[3])), av[3]))
-		return (ERROR);
-	if (!is_number(av[4]) || ft_atoi(av[4]) < 0 || \
-	ft_strcmp(ft_itoa(ft_atoi(av[4])), av[4]))
-		return (ERROR);
-	if (av[5])
-	{
-		philo->nb_of_times_eat = ft_atoi(av[5]);
-		if (!is_number(av[5]) || ft_atoi(av[5]) < 0 || \
-		ft_strcmp(ft_itoa(ft_atoi(av[5])), av[5]))
-			return (ERROR);
-		if (ft_atoi(av[5]) == 0)
-			return (FALSE);
-	}
+		ret = FALSE;
+	free(str);
+	str = ft_itoa(ft_atoi(av[2]));
+	if (!is_number(av[2]) || ft_atoi(av[2]) < 0 || ft_strcmp(str, av[2]))
+		ret = ERROR;
+	free(str);
+	str = ft_itoa(ft_atoi(av[3]));
+	if (!is_number(av[3]) || ft_atoi(av[3]) < 0 || ft_strcmp(str, av[3]))
+		ret = ERROR;
+	free(str);
+	str = ft_itoa(ft_atoi(av[4]));
+	if (!is_number(av[4]) || ft_atoi(av[4]) < 0 || ft_strcmp(str, av[4]))
+		ret = ERROR;
+	record_nb_of_times_eat(philo, av, str, &ret);
+	if (ret)
+		return (ret);
 	philo->data = infos;
 	link_philos(philo, i, av);
 	return (TRUE);

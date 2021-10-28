@@ -12,6 +12,22 @@
 
 #include "philosophers.h"
 
+void	record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret)
+{
+	if (av[5])
+	{
+		free(str);
+		str = ft_itoa(ft_atoi(av[5]));
+		philo->nb_of_times_eat = ft_atoi(av[5]);
+		if (!is_number(av[5]) || ft_atoi(av[5]) < 0 || \
+		ft_strcmp(str, av[5]))
+			*ret = ERROR;
+		if (ft_atoi(av[5]) == 0)
+			*ret = FALSE;
+		free(str);
+	}
+}
+
 void	free_structs_no_routine(t_philo *philo, t_data *infos)
 {
 	free(infos->threads);

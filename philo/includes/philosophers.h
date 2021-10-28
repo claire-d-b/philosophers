@@ -93,6 +93,7 @@ void			release_different_forks(t_philo *philo);
  **  philosophers
  */
 
+void			record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret);
 void			free_structs_no_routine(t_philo *philo, t_data *infos);
 void			free_structs(t_philo *philo);
 
