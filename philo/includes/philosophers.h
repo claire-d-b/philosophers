@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 12:41:53 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/27 15:54:02 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/28 09:22:08 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ typedef struct s_philo
 int				init_structs(t_data **infos, t_philo **philo, char **args);
 int				shared_data(t_data *infos, char **av);
 void			link_philos(t_philo *philo, int i, char **av);
-int				init_philo(t_philo *philo, t_data *infos, int i, \
-				char **av);
+int				init_philo(t_philo *philo, char **av);
 int				create_forks_a_philo(int i, t_data *infos, \
 				t_philo *philo, char **av);
 
@@ -93,7 +92,8 @@ void			release_different_forks(t_philo *philo);
  **  philosophers
  */
 
-void			record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret);
+void			record_nb_of_times_eat(t_philo *philo, char **av, char *str, \
+int *ret);
 void			free_structs_no_routine(t_philo *philo, t_data *infos);
 void			free_structs(t_philo *philo);
 

@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:04 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/27 15:53:49 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/28 09:47:24 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	link_philos(t_philo *philo, int i, char **av)
 	philo->left = i;
 }
 
-int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
+int	init_philo(t_philo *philo, char **av)
 {
 	char	*str;
 	int		ret;
 
-	ret = 0;
+	ret = TRUE;
 	str = ft_itoa(ft_atoi(av[1]));
 	if (!is_number(av[1]) || ft_atoi(av[1]) < 0 || ft_strcmp(str, av[1]))
 		ret = ERROR;
@@ -87,8 +87,6 @@ int	init_philo(t_philo *philo, t_data *infos, int i, char **av)
 	record_nb_of_times_eat(philo, av, str, &ret);
 	if (ret)
 		return (ret);
-	philo->data = infos;
-	link_philos(philo, i, av);
 	return (TRUE);
 }
 
@@ -101,7 +99,7 @@ char **av)
 	while (++i < ft_atoi(av[1]))
 	{
 		memset(&philo[i], 0, sizeof(t_philo));
-		ret = init_philo(&philo[i], infos, i, av);
+		ret = init_philo(&philo[i], av);
 		if (ret != TRUE)
 		{
 			while (--i > 0)
@@ -112,6 +110,8 @@ char **av)
 			}
 			return (ret);
 		}
+		philo[i].data = infos;
+		link_philos(&philo[i], i, av);
 		if (pthread_mutex_init(&philo->data->forks_mutex[i], NULL))
 			return (print_error("Error in attempt to init mutex\n", philo));
 	}

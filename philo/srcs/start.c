@@ -6,7 +6,7 @@
 /*   By: clde-ber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 16:22:18 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/26 18:12:36 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/28 09:36:29 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*start_routine(void *philo)
 	t_philo	*phil;
 
 	phil = (t_philo *)philo;
-	philo_routine(philo);
+	philo_routine(phil);
 	return (TRUE);
 }
 
