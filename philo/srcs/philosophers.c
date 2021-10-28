@@ -14,9 +14,9 @@
 
 void	record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret)
 {
+	free(str);
 	if (av[5])
 	{
-		free(str);
 		str = ft_itoa(ft_atoi(av[5]));
 		philo->nb_of_times_eat = ft_atoi(av[5]);
 		if (!is_number(av[5]) || ft_atoi(av[5]) < 0 || \
