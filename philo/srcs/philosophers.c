@@ -6,7 +6,7 @@
 /*   By: clde-ber <clde-ber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:08:41 by clde-ber          #+#    #+#             */
-/*   Updated: 2021/10/26 18:08:56 by clde-ber         ###   ########.fr       */
+/*   Updated: 2021/10/30 08:56:55 by clde-ber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret)
 		philo->nb_of_times_eat = ft_atoi(av[5]);
 		if (!is_number(av[5]) || ft_atoi(av[5]) < 0 || \
 		ft_strcmp(str, av[5]))
+		{
 			*ret = ERROR;
+			free(str);
+			return ;
+		}
 		if (ft_atoi(av[5]) == 0)
 			*ret = FALSE;
 		free(str);
