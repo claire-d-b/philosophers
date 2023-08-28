@@ -12,6 +12,8 @@
 
 #include "philosophers.h"
 
+// Useful string manipulation and other functions
+
 char	*ft_strdup(char *str)
 {
 	int		i;

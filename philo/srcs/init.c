@@ -12,6 +12,9 @@
 
 #include "philosophers.h"
 
+// Memory allocation for main process data shared with all philosophers i.e. if one of them died for example
+// Memory allocation for table of struct philosophers
+
 int	init_structs(t_data **infos, t_philo **philo, char **args)
 {
 	if (ft_atoi(args[1]) < 0)
@@ -39,6 +42,8 @@ int	init_structs(t_data **infos, t_philo **philo, char **args)
 	return (TRUE);
 }
 
+// Initialization of main process data
+
 int	shared_data(t_data *infos, char **av)
 {
 	if (ft_atoi(av[1]) < 0)
@@ -50,6 +55,8 @@ int	shared_data(t_data *infos, char **av)
 	return (TRUE);
 }
 
+// Initialisation of a philo struct elements
+
 void	link_philos(t_philo *philo, int i, char **av)
 {
 	philo->philo_number = ft_atoi(av[1]);
@@ -60,6 +67,8 @@ void	link_philos(t_philo *philo, int i, char **av)
 	philo->right = (i + 1) % philo->philo_number;
 	philo->left = i;
 }
+
+// Checks if program args are valid
 
 int	init_philo(t_philo *philo, char **av)
 {
@@ -89,6 +98,8 @@ int	init_philo(t_philo *philo, char **av)
 		return (ret);
 	return (TRUE);
 }
+
+// Initialize values of each philosopher and fork mutexes if no error 
 
 int	create_forks_a_philo(int i, t_data *infos, t_philo *philo, \
 char **av)

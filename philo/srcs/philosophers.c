@@ -12,6 +12,8 @@
 
 #include "philosophers.h"
 
+// Defines the number of times each philosopher must eat if set, the programs should finish when this number is reached for all philosophers
+
 void	record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret)
 {
 	free(str);
@@ -32,6 +34,8 @@ void	record_nb_of_times_eat(t_philo *philo, char **av, char *str, int *ret)
 	}
 }
 
+// Free memory functions to avoid leaks
+
 void	free_structs_no_routine(t_philo *philo, t_data *infos)
 {
 	free(infos->threads);
@@ -47,6 +51,8 @@ void	free_structs(t_philo *philo)
 	free(philo->data);
 	free(philo);
 }
+
+// Main process
 
 int	main(int ac, char **av)
 {
@@ -69,7 +75,7 @@ int	main(int ac, char **av)
 		return (FALSE);
 	init_mutexes(philo);
 	start_threads(philo, philo->philo_number);
-	ret = is_it_dead(philo);
+	while (is_it_dead(philo) == TRUE) ;
 	join_threads(philo, philo->philo_number);
 	destroy_mutexes(-1, philo);
 	free_structs(philo);

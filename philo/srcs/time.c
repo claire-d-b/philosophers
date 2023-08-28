@@ -12,23 +12,21 @@
 
 #include "philosophers.h"
 
+// Returns the time since the program started
+
 unsigned long	get_time(t_philo *philo)
 {
 	struct timeval	tv;
 
+	pthread_mutex_lock(&philo->data->start_mutex);
 	if (gettimeofday(&tv, NULL) == -1)
 		return (print_error("Error in getting time\n", philo));
-	return ((tv.tv_sec * 1000000 + tv.tv_usec) - philo->data->start_time);
+	unsigned long time = (tv.tv_sec * 1000000 + tv.tv_usec) - philo->data->start_time;
+	pthread_mutex_unlock(&philo->data->start_mutex);
+	return (time);
 }
 
-unsigned long	get_timestamp(t_philo *philo)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		return (print_error("Error in getting time\n", philo));
-	return (tv.tv_sec * 1000000 + tv.tv_usec);
-}
+// Returns the time since 1970
 
 unsigned long	get_start_time(void)
 {
@@ -36,34 +34,6 @@ unsigned long	get_start_time(void)
 
 	if (gettimeofday(&tv, NULL) == -1)
 		return (print_error("Error in getting time\n", NULL));
+	// one second = 1,000,000 usec
 	return (tv.tv_sec * 1000000 + tv.tv_usec);
-}
-
-void	wait_action(t_philo *philo, unsigned long time)
-{
-	unsigned long	time1;
-	unsigned long	time2;	
-
-	pthread_mutex_lock(&philo->data->time_cmp_mutex);
-	time1 = get_timestamp(philo);
-	pthread_mutex_unlock(&philo->data->time_cmp_mutex);
-	pthread_mutex_lock(&philo->data->time_mutex);
-	time2 = get_timestamp(philo);
-	pthread_mutex_unlock(&philo->data->time_mutex);
-	pthread_mutex_lock(&philo->data->die_mutex);
-	pthread_mutex_lock(&philo->data->end_mutex);
-	while (philo->diff < time && !philo->data->died && !philo->data->end)
-	{
-		pthread_mutex_unlock(&philo->data->die_mutex);
-		pthread_mutex_unlock(&philo->data->end_mutex);
-		pthread_mutex_lock(&philo->data->time_mutex);
-		time2 = get_timestamp(philo);
-		pthread_mutex_unlock(&philo->data->time_mutex);
-		philo->diff = time2 - time1;
-		usleep(1000);
-		pthread_mutex_lock(&philo->data->die_mutex);
-		pthread_mutex_lock(&philo->data->end_mutex);
-	}
-	pthread_mutex_unlock(&philo->data->die_mutex);
-	pthread_mutex_unlock(&philo->data->end_mutex);
 }

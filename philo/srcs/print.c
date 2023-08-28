@@ -12,6 +12,8 @@
 
 #include "philosophers.h"
 
+// Writes string in specified fd
+
 void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
@@ -25,6 +27,8 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
+
+// Prints take forks message
 
 void	take_forks(t_philo *philo)
 {
@@ -52,6 +56,8 @@ void	take_forks(t_philo *philo)
 	}
 }
 
+// Function that prints all messages
+
 void	print_msg(t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&philo->data->die_mutex);
@@ -63,6 +69,8 @@ void	print_msg(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->data->die_mutex);
 	pthread_mutex_unlock(&philo->data->end_mutex);
 }
+
+// Function that prints error on standard error
 
 int	print_error(char *msg, t_philo *philo)
 {

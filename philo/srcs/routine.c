@@ -12,18 +12,16 @@
 
 #include "philosophers.h"
 
+// Function that sets process data major infos i.e. if a philosopher has died or if all philosophers have eaten enough.
+
 int	quit_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->count_mutex);
-	if ((philo->eat_count < philo->nb_of_times_eat && philo->nb_of_times_eat) \
-	|| !philo->nb_of_times_eat)
+	if (!philo->nb_of_times_eat)
 	{
 		pthread_mutex_lock(&philo->data->die_mutex);
 		philo->data->died = 1;
 		pthread_mutex_unlock(&philo->data->die_mutex);
-		pthread_mutex_lock(&philo->data->mutex);
-		printf("%lu %d died\n", get_time(philo) / 1000, philo->id);
-		pthread_mutex_unlock(&philo->data->mutex);
 	}
 	else
 	{
@@ -35,79 +33,61 @@ int	quit_routine(t_philo *philo)
 	return (FALSE);
 }
 
+// Function that increments of 1 the process data 'all_eat' when all philosopher have finished eating n times.
+
 void	philo_eat(t_philo *philo)
 {
 	take_different_forks(philo);
-	if (philo->philo_number > 1)
+	pthread_mutex_lock(&philo->data->mutex);
+	print_msg(philo, "%lu %d is eating\n");
+	pthread_mutex_unlock(&philo->data->mutex);
+	pthread_mutex_lock(&philo->data->count_mutex);
+	philo->eat_count++;
+	if (philo->eat_count == philo->nb_of_times_eat)
 	{
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu %d is eating\n");
-		pthread_mutex_unlock(&philo->data->mutex);
-		pthread_mutex_lock(&philo->data->count_mutex);
-		philo->eat_count++;
-		if (philo->eat_count == philo->nb_of_times_eat)
-		{
-			pthread_mutex_lock(&philo->data->all_eat_mutex);
-			philo->data->all_eat++;
-			pthread_mutex_unlock(&philo->data->all_eat_mutex);
-		}
-		pthread_mutex_unlock(&philo->data->count_mutex);
+		pthread_mutex_lock(&philo->data->all_eat_mutex);
+		philo->data->all_eat++;
+		pthread_mutex_unlock(&philo->data->all_eat_mutex);
 	}
+	pthread_mutex_unlock(&philo->data->count_mutex);
 }
+
+// Prints the time when a philosopher starts sleeping
 
 void	philo_sleep(t_philo *philo)
 {
-	if (philo->philo_number > 1)
-	{
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu %d is sleeping\n");
-		pthread_mutex_unlock(&philo->data->mutex);
-	}
+	pthread_mutex_lock(&philo->data->mutex);
+	print_msg(philo, "%lu %d is sleeping\n");
+	pthread_mutex_unlock(&philo->data->mutex);
 }
 
-void	philo_think(t_philo *philo, int boolean)
+// Prints the time when a philosopher starts thinking
+
+void	philo_think(t_philo *philo)
 {
-	int	adjust;
-
-	adjust = 0;
-	pthread_mutex_lock(&philo->data->lm_mutex);
-	if (philo->last_meal)
-		adjust = get_time(philo) - philo->last_meal - \
-		philo->time_to_eat - philo->time_to_sleep;
-	if (!philo->last_meal)
-		adjust = get_time(philo) - philo->last_meal;
-	pthread_mutex_unlock(&philo->data->lm_mutex);
-	if (philo->philo_number > 1)
-	{
-		pthread_mutex_lock(&philo->data->mutex);
-		print_msg(philo, "%lu %d is thinking\n");
-		pthread_mutex_unlock(&philo->data->mutex);
-		if ((philo->philo_number % 2 || boolean == 1) && adjust > 0)
-		{
-			philo->diff = 0;
-			wait_action(philo, adjust);
-		}
-	}
+	pthread_mutex_lock(&philo->data->mutex);
+	print_msg(philo, "%lu %d is thinking\n");
+	pthread_mutex_unlock(&philo->data->mutex);
 }
+
+// Function that is used as parameter of pthread_create.
+// Is the routine of a philosopher / thread.
 
 void	*philo_routine(t_philo *philo)
 {	
-	if (philo->id % 2)
-		philo_think(philo, 1);
+	// main loop orchestrating philosophers activities
 	pthread_mutex_lock(&philo->data->die_mutex);
 	pthread_mutex_lock(&philo->data->end_mutex);
-	while (!philo->data->died & !philo->data->end)
+	while (!philo->data->died && !philo->data->end)
 	{
 		pthread_mutex_unlock(&philo->data->die_mutex);
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		philo_eat(philo);
-		philo->diff = 0;
-		wait_action(philo, philo->time_to_eat);
+		usleep(philo->time_to_eat);
 		release_different_forks(philo);
 		philo_sleep(philo);
-		philo->diff = 0;
-		wait_action(philo, philo->time_to_sleep);
-		philo_think(philo, 0);
+		usleep(philo->time_to_sleep);
+		philo_think(philo);
 		pthread_mutex_lock(&philo->data->die_mutex);
 		pthread_mutex_lock(&philo->data->end_mutex);
 	}

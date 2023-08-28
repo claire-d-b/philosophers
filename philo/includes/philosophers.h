@@ -41,12 +41,11 @@ typedef struct s_data
 	pthread_mutex_t	end_mutex;
 	pthread_mutex_t	count_mutex;
 	pthread_mutex_t	lm_mutex;
-	pthread_mutex_t	time_cmp_mutex;
-	pthread_mutex_t	time_mutex;
 	pthread_mutex_t	*forks_mutex;
 	pthread_mutex_t	alone_mutex;
 	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	all_eat_mutex;
+	pthread_mutex_t	time_mutex;
 	pthread_t		*threads;
 }			t_data;
 
@@ -62,7 +61,6 @@ typedef struct s_philo
 	int				right;
 	int				left;
 	unsigned long	eat_count;
-	unsigned long	time_cmp;
 	unsigned long	cumul_time;
 	unsigned long	diff;
 	t_data			*data;
@@ -112,7 +110,7 @@ int				print_error(char *msg, t_philo *philo);
 
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
-void			philo_think(t_philo *philo, int boolean);
+void			philo_think(t_philo *philo);
 void			*philo_routine(t_philo *philo);
 int				quit_routine(t_philo *philo);
 
@@ -120,10 +118,9 @@ int				quit_routine(t_philo *philo);
 **  routine_utils
 */
 
-int				reasons_for_death(t_philo *philo, unsigned long alt_eat);
+int				all_eat(t_philo *philo);
 int				stop_alone(t_philo *philo, unsigned long die);
-int				stop_numerous(t_philo *philo, unsigned long die, unsigned long \
-alt_eat);
+int				stop_numerous(t_philo *philo);
 int				is_it_dead(t_philo *philo);
 void			record_last_meal(t_philo *philo);
 
@@ -148,9 +145,8 @@ char			*ft_itoa(int n);
 */
 
 unsigned long	get_time(t_philo *philo);
-unsigned long	get_timestamp(t_philo *philo);
 unsigned long	get_start_time(void);
-void			wait_action(t_philo *philo, unsigned long time);
+void			wait_action(unsigned long time);
 
 /*
 **  utils
