@@ -65,8 +65,12 @@ int	is_it_dead(t_philo *philo)
 		return (stop_numerous(philo));
 	}
 	else {
+		usleep(philo->time_to_die);
+		pthread_mutex_lock(&philo->data->mutex);
+		printf("%lu %d died\n", get_time(philo) / 1000, philo->id);
+		pthread_mutex_unlock(&philo->data->mutex);
 		pthread_mutex_unlock(&philo->data->count_mutex);
-		return (FALSE);
+		return (quit_routine(philo));
 	}
 }
 

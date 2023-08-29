@@ -75,7 +75,7 @@ int	main(int ac, char **av)
 		return (FALSE);
 	init_mutexes(philo);
 	start_threads(philo, philo->philo_number);
-	while (is_it_dead(philo) == TRUE) ;
+	while (is_it_dead(philo) == TRUE) usleep(10000);
 	join_threads(philo, philo->philo_number);
 	destroy_mutexes(-1, philo);
 	free_structs(philo);

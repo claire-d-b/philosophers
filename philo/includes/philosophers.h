@@ -34,7 +34,6 @@ typedef struct s_data
 	unsigned long	adjust;
 	int				minus;
 	unsigned long	start_time;
-	int				alone;
 	int				start;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	die_mutex;
@@ -42,7 +41,6 @@ typedef struct s_data
 	pthread_mutex_t	count_mutex;
 	pthread_mutex_t	lm_mutex;
 	pthread_mutex_t	*forks_mutex;
-	pthread_mutex_t	alone_mutex;
 	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	all_eat_mutex;
 	pthread_mutex_t	time_mutex;

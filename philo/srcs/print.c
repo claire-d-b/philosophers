@@ -34,18 +34,10 @@ void	take_forks(t_philo *philo)
 {
 	if (philo->philo_number == 1)
 	{
-		pthread_mutex_lock(&philo->data->alone_mutex);
-		if (philo->data->alone == 0)
-		{
-			pthread_mutex_lock(&philo->data->mutex);
-			print_msg(philo, \
-			"%lu %d has taken a fork\n");
-			pthread_mutex_unlock(&philo->data->mutex);
-		}
-		pthread_mutex_unlock(&philo->data->alone_mutex);
-		pthread_mutex_lock(&philo->data->alone_mutex);
-		philo->data->alone = 1;
-		pthread_mutex_unlock(&philo->data->alone_mutex);
+		pthread_mutex_lock(&philo->data->mutex);
+		print_msg(philo, \
+		"%lu %d has taken a fork\n");
+		pthread_mutex_unlock(&philo->data->mutex);
 	}
 	else
 	{
