@@ -72,8 +72,16 @@ void	take_different_forks(t_philo *philo)
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
-		pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
+		if (philo->id % 2)
+		{
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
+		}
+		else
+		{
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
+		}
 		take_forks(philo);
 		record_last_meal(philo);
 	}
@@ -86,7 +94,15 @@ void	release_different_forks(t_philo *philo)
 	if (philo->philo_number == 1)
 		pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
 	else {
-		pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
-		pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
+		if (philo->id % 2)
+		{
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
+		}
 	}
 }
