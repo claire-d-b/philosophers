@@ -74,13 +74,13 @@ void	take_different_forks(t_philo *philo)
 	{
 		if (philo->id % 2)
 		{
-			pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 			pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
 		}
 		else
 		{
-			pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 			pthread_mutex_lock(&philo->data->forks_mutex[philo->left]);
+			pthread_mutex_lock(&philo->data->forks_mutex[philo->right]);
 		}
 		take_forks(philo);
 		record_last_meal(philo);

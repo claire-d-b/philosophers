@@ -76,6 +76,9 @@ void	philo_think(t_philo *philo)
 void	*philo_routine(t_philo *philo)
 {	
 	// main loop orchestrating philosophers activities
+	// even philosophers start thinking
+	if (!(philo->id % 2))
+		philo_think(philo);
 	pthread_mutex_lock(&philo->data->die_mutex);
 	pthread_mutex_lock(&philo->data->end_mutex);
 	while (!philo->data->died && !philo->data->end)
