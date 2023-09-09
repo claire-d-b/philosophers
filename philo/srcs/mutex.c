@@ -96,13 +96,13 @@ void	release_different_forks(t_philo *philo)
 	else {
 		if (philo->id % 2)
 		{
-			pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
 			pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
 		}
 		else
 		{
-			pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
 			pthread_mutex_unlock(&philo->data->forks_mutex[philo->left]);
+			pthread_mutex_unlock(&philo->data->forks_mutex[philo->right]);
 		}
 	}
 }
