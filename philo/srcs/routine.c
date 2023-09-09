@@ -76,8 +76,8 @@ void	philo_think(t_philo *philo)
 void	*philo_routine(t_philo *philo)
 {	
 	// main loop orchestrating philosophers activities
-	// odd philosophers start eating
-	if (philo->id % 2)
+	// odd philosophers start eating when there is an odd total philo number
+	if (!(philo->philo_number % 2 && philo->id % 2))
 		usleep(1000);
 	pthread_mutex_lock(&philo->data->die_mutex);
 	pthread_mutex_lock(&philo->data->end_mutex);
